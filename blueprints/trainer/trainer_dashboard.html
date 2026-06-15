@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trainer Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Welcome Trainer: {{ session.name }}</h1>
+
+<div class="container">
+    <a href="/trainer/my_batches">My Batches</a><br>
+    <a href="/trainer/upload_material">Upload Material</a><br>
+    <a href="/trainer/profile">My Profile</a><br>
+</div>
+
+<a href="/logout" class="logout">Logout</a>
+
+</body>
+</html>

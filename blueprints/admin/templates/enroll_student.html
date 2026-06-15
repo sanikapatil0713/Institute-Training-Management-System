@@ -1,0 +1,37 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">🎓 Enroll Single Student</h4>
+
+    <div class="card shadow p-3">
+        <form method="POST">
+
+            <div class="mb-3">
+                <label class="form-label">Select Student</label>
+                <select name="student_id" class="form-control" required>
+                    <option value="">Select Student</option>
+                    {% for s in students %}
+                    <option value="{{s.id}}">{{s.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Course</label>
+                <select name="course_id" class="form-control" required>
+                    <option value="">Select Course</option>
+                    {% for c in courses %}
+                    <option value="{{c.course_id}}">{{c.course_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button class="btn btn-primary">Enroll Student</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

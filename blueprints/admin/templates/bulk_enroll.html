@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">👥 Bulk Enroll Students</h4>
+
+    <form method="POST">
+
+        <div class="card shadow p-3 mb-3">
+
+            <label class="form-label">Select Course</label>
+            <select name="course_id" class="form-control" required>
+                <option value="">Select Course</option>
+                {% for c in courses %}
+                <option value="{{c.course_id}}">{{c.course_name}}</option>
+                {% endfor %}
+            </select>
+
+        </div>
+
+        <div class="card shadow p-3">
+
+            <h6>Select Students</h6>
+
+            {% for s in students %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox"
+                       name="student_ids" value="{{s.id}}">
+                <label class="form-check-label">
+                    {{s.name}}
+                </label>
+            </div>
+            {% endfor %}
+
+            <button class="btn btn-primary mt-3">Bulk Enroll</button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

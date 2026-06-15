@@ -1,0 +1,42 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">📋 Student Course Enrollments</h4>
+
+    <div class="card shadow p-3">
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Enrolled At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for e in enrollments %}
+                <tr>
+                    <td>{{e.student_name}}</td>
+                    <td>{{e.course_name}}</td>
+                    <td>{{e.enrolled_at}}</td>
+                    <td>
+                        <a href="/admin/enrollment/delete/{{e.id}}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Remove enrollment?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

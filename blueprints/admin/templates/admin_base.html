@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        /* LEFT SIDEBAR */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #2c3e50;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .sidebar a:hover {
+            background: #1a252f;
+            color: #fff;
+        }
+
+        /* TOP NAVBAR */
+        .topbar {
+            position: fixed;
+            left: 250px;
+            right: 0;
+            top: 0;
+            height: 60px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            font-size: 18px;
+            z-index: 1000;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            margin-left: 250px;
+            margin-top: 80px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/trainer_assign_page">Assign Trainers</a>
+        <a href="/admin/trainer_page">Manage Trainers</a>
+        <a href="/admin/course_page">Manage Courses</a>
+        <a href="/admin/subject_page">Manage Subjects</a>
+        <a href="/admin/topic_page">Manage Topics</a>
+        <a href="/admin/timetable_page">Manage Timetable</a>
+        <a href="/admin/enroll_student">Enroll Student (Single)</a>
+        <a href="/admin/bulk_enroll">Bulk Enroll Students</a>
+        <a href="/admin/upload_students">Upload Students (CSV)</a>
+        <a href="/admin/view_enrollments">View Enrollments</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <!-- Top Navbar -->
+    <div class="topbar">
+        <span>Welcome, {{ session.name }}</span>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}
+        <h2>Dashboard Overview</h2>
+        <p>Select an option from the left menu to begin.</p>
+        {% endblock %}
+    </div>
+
+</body>
+</html>

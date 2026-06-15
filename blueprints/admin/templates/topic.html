@@ -1,0 +1,100 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Topic Management{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">📌 Topic Management</h2>
+
+    <!-- Add Topic Form -->
+    <div class="card shadow p-3 mb-4">
+        <h5 class="mb-3">Add Topic</h5>
+
+        <form method="POST" action="{{ url_for('admin.add_topic') }}">
+
+            <div class="row">
+
+                <!-- Course -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Select Course</label>
+                    <select id="course" class="form-control" required>
+                        <option value="">-- Select Course --</option>
+                        {% for c in courses %}
+                        <option value="{{ c.course_id }}">{{ c.course_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Subject -->
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Select Subject</label>
+                    <select name="subject_id" id="subject" class="form-control" required>
+                        <option value="">-- Select Subject --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Topic Name -->
+            <div class="mb-3">
+                <label class="form-label">Topic Name</label>
+                <input type="text" name="topic_name" class="form-control" placeholder="Enter Topic" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Topic</button>
+        </form>
+    </div>
+
+    <!-- Topics Table -->
+    <div class="card shadow p-3">
+        <h5 class="mb-3">📋 All Topics</h5>
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Course</th>
+                    <th>Subject</th>
+                    <th>Topic</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for t in topics %}
+                <tr>
+                    <td>{{ t.topic_id }}</td>
+                    <td>{{ t.course_name }}</td>
+                    <td>{{ t.subject_name }}</td>
+                    <td>{{ t.topic_name }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.delete_topic', topic_id=t.topic_id) }}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this topic?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // ---------------- Load Subjects based on Course ----------------
+    $("#course").change(function () {
+        let course_id = $(this).val();
+        $("#subject").html("<option>Loading...</option>");
+
+        $.get("/admin/get_subjects/" + course_id, function (data) {
+            let options = "<option value=''>-- Select Subject --</option>";
+            data.forEach(function (s) {
+                options += `<option value="${s.subject_id}">${s.subject_name}</option>`;
+            });
+            $("#subject").html(options);
+        });
+    });
+</script>
+{% endblock %}

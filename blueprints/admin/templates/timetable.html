@@ -1,0 +1,158 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">📅 Timetable Management</h2>
+
+    <!-- ================= ADD TIMETABLE FORM ================= -->
+    <div class="card shadow p-3 mb-4">
+        <h5 class="mb-3">Add Timetable Entry</h5>
+
+        <form action="/admin/timetable" method="POST">
+
+            <div class="row">
+
+                <!-- COURSE -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Course</label>
+                    <select name="course_id" id="courseSelect" class="form-control" required>
+                        <option value="">Select Course</option>
+                        {% for c in courses %}
+                        <option value="{{ c.course_id }}">{{ c.course_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- SUBJECT -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Subject</label>
+                    <select name="subject_id" id="subjectSelect" class="form-control" required>
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+
+                <!-- TRAINER -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Trainer</label>
+                    <select name="trainer_id" id="trainerSelect" class="form-control" required>
+                        <option value="">Select Trainer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <!-- DAY -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Day</label>
+                    <select name="day" class="form-control" required>
+                        <option value="">Select Day</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                    </select>
+                </div>
+
+                <!-- TIME SLOT -->
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Time Slot</label>
+                    <select name="time_slot" class="form-control" required>
+                        <option value="">Select Time</option>
+                        
+                                <option value="9-11">9-11</option>
+                                <option value="11-1">11-1</option>
+                                <option value="1-3">1-3</option>
+                                <option value="3-5">3-5</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary px-4">Add Timetable</button>
+        </form>
+    </div>
+
+    <!-- ================= TIMETABLE LIST ================= -->
+    <div class="card shadow p-3">
+        <h5 class="mb-3">📋 Timetable Entries</h5>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Course</th>
+                    <th>Subject</th>
+                    <th>Trainer</th>
+                    <th>Day</th>
+                    <th>Time Slot</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for t in timetable %}
+                <tr>
+                    <td>{{ t.course_name }}</td>
+                    <td>{{ t.subject_name }}</td>
+                    <td>{{ t.trainer_name }}</td>
+                    <td>{{ t.day }}</td>
+                    <td>{{ t.time_slot }}</td>
+                    <td>
+                        <a href="/admin/timetable/delete/{{ t.id }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this entry?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        No timetable entries found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    // Load subjects based on course
+    $("#courseSelect").change(function () {
+        let course_id = $(this).val();
+
+        $("#subjectSelect").html("<option>Loading...</option>");
+        $("#trainerSelect").html("<option value=''>Select Trainer</option>");
+
+        $.get("/admin/get_subjects_timetable/" + course_id, function (data) {
+            let options = "<option value=''>Select Subject</option>";
+            data.forEach(function (s) {
+                options += `<option value="${s.subject_id}">${s.subject_name}</option>`;
+            });
+            $("#subjectSelect").html(options);
+        });
+    });
+
+    // Load trainers based on subject
+    $("#subjectSelect").change(function () {
+        let subject_id = $(this).val();
+
+        $("#trainerSelect").html("<option>Loading...</option>");
+
+        $.get("/admin/get_trainers/" + subject_id, function (data) {
+            let options = "<option value=''>Select Trainer</option>";
+            data.forEach(function (t) {
+                options += `<option value="${t.id}">${t.name}</option>`;
+            });
+            $("#trainerSelect").html(options);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,35 @@
+body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f7f7f7;
+}
+
+h1 {
+    color: #003366;
+}
+
+.container a {
+    display: block;
+    padding: 10px;
+    background: white;
+    margin: 8px;
+    border-radius: 5px;
+    text-decoration: none;
+    width: 200px;
+    border: 1px solid #ccc;
+}
+
+.container a:hover {
+    background: #003366;
+    color: white;
+}
+
+.logout {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px;
+    background: #cc0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}

@@ -1,0 +1,39 @@
+CREATE TABLE course_master (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_name VARCHAR(200) UNIQUE NOT NULL,
+    duration VARCHAR(100) NOT NULL
+);
+CREATE TABLE su_master (
+    subject_id INT AUTO_INCREMENT PRIMARY KEY,
+    subject_name VARCHAR(200) NOT NULL,
+    course_id INT NOT NULL,
+    FOREIGN KEY (course_id) REFERENCES course_master(course_id)
+);
+
+CREATE TABLE topic (
+    topic_id INT AUTO_INCREMENT PRIMARY KEY,
+    topic_name VARCHAR(200) NOT NULL,
+    subject_id INT NOT NULL,
+    FOREIGN KEY (subject_id) REFERENCES su_master(subject_id)
+);
+CREATE TABLE student_course (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_student
+        FOREIGN KEY (student_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_course
+        FOREIGN KEY (course_id)
+        REFERENCES course_master(course_id)
+        ON DELETE CASCADE
+);
+
+ALTER TABLE timetable_master
+ADD COLUMN schedule_date DATE NOT NULL AFTER trainer_id,
+ADD COLUMN is_holiday TINYINT(1) DEFAULT 0 AFTER time_slot,
+ADD COLUMN holiday_reason VARCHAR(100) DEFAULT NULL AFTER is_holiday;
