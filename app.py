@@ -146,7 +146,7 @@ def forgot_password():
         cur.close()
         con.close()
 
-        flash("✅ Password reset successful. Please login.", "success")
+        flash("✅ Password reset successfully. Please login.", "success")
         return redirect("/")
 
     return render_template("forgot_password.html")
